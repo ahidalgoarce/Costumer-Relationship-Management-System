@@ -1,32 +1,33 @@
 'use strict';
 var mongoose = require('mongoose');
-const { isEmail } = require('validator');
 var Schema = mongoose.Schema;
 
-var UserSchema = new Schema({
+var ClientSchema = new Schema({
   name: {
     type: String,
     required: true,
   },
-  lastname: {
+  legal_certificate: {
     type: String,
     required: true,
   },
-  username: {
-    type: String,
-    required: true,
-    validate: [isEmail, 'Invalid email'],
-    createIndexes: { unique: true },
-  },
-  password: {
+  website: {
     type: String,
     required: true,
   },
-  isAdmin: {
-    type: Boolean,
+  address: {
+    type: String,
+    required: true,
+  },
+  phone: {
+    type: String,
+    required: true,
+  },
+  sector: {
+    type: String,
     required: true,
   },
 
 });
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('Client', ClientSchema);
