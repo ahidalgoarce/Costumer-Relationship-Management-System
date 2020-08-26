@@ -2,7 +2,6 @@
 module.exports = function(app) {
   var client = require('../controllers/clientController');
 
-  // todoList Routes
   app.route('/client')
     .get(client.list_all_clients)
     .post(client.create_a_client);
