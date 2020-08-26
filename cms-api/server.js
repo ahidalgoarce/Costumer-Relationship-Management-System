@@ -1,23 +1,35 @@
-var express = require('express'),
-app = express(),
-port = process.env.PORT || 3000,
-mongoose = require('mongoose'),
-User = require('./api/models/userModel'),
-Client = require('./api/models/clientModel'),
-bodyParser = require('body-parser');
-  
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/cms'); 
+// server.js
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+const express = require("express");
+const server = express();
 
-var userRoutes = require('./api/routes/userRoutes');
-userRoutes(app);
+const body_parser = require("body-parser");
 
-var clientRoutes = require('./api/routes/clientRoutes');
-clientRoutes(app);
+// parse JSON (application/json content-type)
+server.use(body_parser.json());
 
-app.listen(port);
+const port = 4000;
 
-console.log('cms RESTful API server started on: ' + port);
+// << db setup >>
+const db = require("./db");
+const dbName = "cms";
+const collectionName = "User";
+
+db.initialize(dbName, collectionName, function(dbCollection) { // successCallback
+    // get all items
+    dbCollection.find().toArray(function(err, result) {
+        if (err) throw err;
+          console.log(result);
+    });
+
+    // << db CRUD routes >>
+
+}, function(err) { // failureCallback
+    throw (err);
+});
+
+// << db init >>
+
+server.listen(port, () => {
+    console.log(`Server listening at ${port}`);
+});
