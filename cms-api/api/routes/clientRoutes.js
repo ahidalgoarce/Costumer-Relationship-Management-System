@@ -1,14 +1,21 @@
-'use strict';
-module.exports = function(app) {
-  var client = require('../controllers/clientController');
+const express = require('express');
+const router = express.Router();
 
-  app.route('/client')
-    .get(client.list_all_clients)
-    .post(client.create_a_client);
+const ClientController = require('../controllers/clientController');
 
+//Get a list of all products
+router.get('/', ClientController.getAllClients);
 
-  app.route('/client/:clientId')
-    .get(client.read_a_client)
-    .put(client.update_a_client)
-    .delete(client.delete_a_client);
-};
+//Create a new product
+router.post('/', ClientController.createNewClient);
+
+//Get a product by id
+router.get('/:id', ClientController.findClientById);
+
+//Update a product by id
+router.patch('/:id', ClientController.updateAClient);
+
+//Delete a product by id
+router.delete('/:id', ClientController.deleteAClient);
+
+module.exports = router;

@@ -1,44 +1,87 @@
-'use strict';
-var mongoose = require('mongoose'),
-Client = mongoose.model('Client');
+const createError = require('http-errors');
+const mongoose = require('mongoose');
 
-exports.list_all_clients = function(req, res) {
-  Client.find({}, function(err, client) {
-    if (err)
-      res.send(err);
-    res.json(client);
-  });
-};
+const Client = require('../models/clientModel');
 
-exports.create_a_client = function(req, res) {
-  var new_client = new Client(req.body);
-  new_client.save(function(err, client) {
-    if (err)
-      res.send(err);
-    res.json(client);
-  });
-};
+module.exports = {
 
-exports.read_a_client = function(req, res) {
-  Client.findById(req.params.clientId, function(err, client) {
-    if (err)
-      res.send(err);
-    res.json(client);
-  });
-};
+  getAllClients: async (req, res, next) => {
+    try {
+      const results = await Client.find({}, { __v: 0 });
+      res.send(results);
+    } catch (error) {
+      console.log(error.message);
+    }
+  },
 
-exports.update_a_client = function(req, res) {
-    Client.findOneAndUpdate({_id: req.params.clientId}, req.body, {new: true}, function(err, client) {
-    if (err)
-      res.send(err);
-    res.json(client);
-  });
-};
+  createNewClient: async (req, res, next) => {
+    try {
+      const client = new Client(req.body);
+      const result = await client.save();
+      res.send(result);
+    } catch (error) {
+      console.log(error.message);
+      if (error.name === 'ValidationError') {
+        next(createError(422, error.message));
+        return;
+      }
+      next(error);
+    }
+  },
 
-exports.delete_a_client = function(req, res) {
-    Client.remove({_id: req.params.clientId}, function(err, client) {
-    if (err)
-      res.send(err);
-    res.json({ message: 'Client successfully deleted' });
-  });
+  findClientById: async (req, res, next) => {
+    const id = req.params.id;
+    try {
+      const client = await Client.findById(id);
+      if (!client) {
+        throw createError(404, 'Client does not exist.');
+      }
+      res.send(client);
+    } catch (error) {
+      console.log(error.message);
+      if (error instanceof mongoose.CastError) {
+        next(createError(400, 'Invalid Client id'));
+        return;
+      }
+      next(error);
+    }
+  },
+
+  updateAClient: async (req, res, next) => {
+    try {
+      const id = req.params.id;
+      const updates = req.body;
+      const options = { new: true };
+
+      const result = await Client.findByIdAndUpdate(id, updates, options);
+      if (!result) {
+        throw createError(404, 'Client does not exist');
+      }
+      res.send(result);
+    } catch (error) {
+      console.log(error.message);
+      if (error instanceof mongoose.CastError) {
+        return next(createError(400, 'Invalid Client Id'));
+      }
+      next(error);
+    }
+  },
+
+  deleteAClient: async (req, res, next) => {
+    const id = req.params.id;
+    try {
+      const result = await Client.findByIdAndDelete(id);
+      if (!result) {
+        throw createError(404, 'Client does not exist.');
+      }
+      res.send(result);
+    } catch (error) {
+      console.log(error.message);
+      if (error instanceof mongoose.CastError) {
+        next(createError(400, 'Invalid Client id'));
+        return;
+      }
+      next(error);
+    }
+  }
 };

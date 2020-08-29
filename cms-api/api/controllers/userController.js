@@ -1,44 +1,88 @@
-'use strict';
-var mongoose = require('mongoose'),
-User = mongoose.model('User');
+const createError = require('http-errors');
+const mongoose = require('mongoose');
 
-exports.list_all_users = function(req, res) {
-  User.find({}, function(err, user) {
-    if (err)
-      res.send(err);
-    res.json(user);
-  });
-};
+const User = require('../models/userModel');
 
-exports.create_an_user = function(req, res) {
-  var new_user = new User(req.body);
-  new_user.save(function(err, user) {
-    if (err)
-      res.send(err);
-    res.json(user);
-  });
-};
+module.exports = {
 
-exports.read_an_user = function(req, res) {
-  User.findById(req.params.userId, function(err, user) {
-    if (err)
-      res.send(err);
-    res.json(user);
-  });
-};
+  getAllUsers: async (req, res, next) => {
+    try {
+      const results = await User.find({}, { __v: 0 });
+      res.send(results);
+    } catch (error) {
+      console.log(error.message);
+    }
+  },
 
-exports.update_an_user = function(req, res) {
-    User.findOneAndUpdate({_id: req.params.userId}, req.body, {new: true}, function(err, user) {
-    if (err)
-      res.send(err);
-    res.json(user);
-  });
-};
+  createNewUser: async (req, res, next) => {
+    try {
+      const user = new User(req.body);
+      const result = await user.save();
+      res.send(result);
+    } catch (error) {
+      console.log(error.message);
+      if (error.name === 'ValidationError') {
+        next(createError(422, error.message));
+        return;
+      }
+      next(error);
+    }
+  },
 
-exports.delete_an_user = function(req, res) {
-    User.remove({_id: req.params.userId}, function(err, user) {
-    if (err)
-      res.send(err);
-    res.json({ message: 'User successfully deleted' });
-  });
+  findUserById: async (req, res, next) => {
+    const id = req.params.id;
+    try {
+      const user = await User.findById(id);
+      if (!user) {
+        throw createError(404, 'User does not exist.');
+      }
+      res.send(user);
+    } catch (error) {
+      console.log(error.message);
+      if (error instanceof mongoose.CastError) {
+        next(createError(400, 'Invalid User id'));
+        return;
+      }
+      next(error);
+    }
+  },
+
+  updateAnUser: async (req, res, next) => {
+    try {
+      const id = req.params.id;
+      const updates = req.body;
+      const options = { new: true };
+
+      const result = await User.findByIdAndUpdate(id, updates, options);
+      if (!result) {
+        throw createError(404, 'User does not exist');
+      }
+      res.send(result);
+    } catch (error) {
+      console.log(error.message);
+      if (error instanceof mongoose.CastError) {
+        return next(createError(400, 'Invalid User Id'));
+      }
+
+      next(error);
+    }
+  },
+
+  deleteAnUser: async (req, res, next) => {
+    const id = req.params.id;
+    try {
+      const result = await User.findByIdAndDelete(id);
+      if (!result) {
+        throw createError(404, 'User does not exist.');
+      }
+      res.send(result);
+    } catch (error) {
+      console.log(error.message);
+      if (error instanceof mongoose.CastError) {
+        next(createError(400, 'Invalid User id'));
+        return;
+      }
+      next(error);
+    }
+  }
 };

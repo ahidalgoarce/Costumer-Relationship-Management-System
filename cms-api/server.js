@@ -1,54 +1,42 @@
-// server.js
-
-/*const express = require("express");
-const server = express();
-
-const body_parser = require("body-parser");
-
-// parse JSON (application/json content-type)
-server.use(body_parser.json());
-
-const port = 4000;
-
-// << db setup >>
-const db = require("./db");
-const dbName = "cms";
-const collectionName = "User";
-
-db.initialize(dbName, collectionName, function(dbCollection) { // successCallback
-    // get all items
-    dbCollection.find().toArray(function(err, result) {
-        if (err) throw err;
-          console.log(result);
-    });
-
-    // << db CRUD routes >>
-
-}, function(err) { // failureCallback
-    throw (err);
-});
-
-// << db init >>
-
-server.listen(port, () => {
-    console.log(`Server listening at ${port}`);
-});*/
-
- 
 const express = require('express');
 const createError = require('http-errors');
 const dotenv = require('dotenv').config();
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
 
 const app = express();
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Extended: https://swagger.io/specification/#infoObject
+const swaggerOptions = {
+    swaggerDefinition: {
+      info: {
+        version: "1.0.0",
+        title: "CMS API",
+        description: "CMS API Information",
+        contact: {
+          name: "Alejandro Hidalgo"
+        },
+        servers: ["http://localhost:3000"]
+      }
+    },
+    // ['.routes/*.js']
+    apis: ['./api/routes/*.js']
+};
+  
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
 // Initialize DB
 require('./initDB')();
+const PORT = process.env.PORT || 3000;
 
-const UserRoutes = require('./api/routes/user-routes');
-app.use('/users', UserRoutes);
+const UserRoutes = require('./api/routes/userRoutes');
+app.use('/user', UserRoutes);
+
+const ClientRoutes = require('./api/routes/clientRoutes');
+app.use('/client', ClientRoutes);
 
 //404 handler and pass to error handler
 app.use((req, res, next) => {
@@ -71,8 +59,6 @@ app.use((err, req, res, next) => {
     }
   });
 });
-
-const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log('Server started on port ' + PORT + '...');
