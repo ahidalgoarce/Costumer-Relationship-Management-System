@@ -1,9 +1,9 @@
 'use strict';
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const { isEmail } = require('validator');
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
-var UserSchema = new Schema({
+const UserSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -29,4 +29,5 @@ var UserSchema = new Schema({
 
 });
 
-module.exports = mongoose.model('User', UserSchema);
+const User = mongoose.model('User', UserSchema);
+module.exports = User;
