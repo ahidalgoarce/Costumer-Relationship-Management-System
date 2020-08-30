@@ -3,10 +3,10 @@ const createError = require('http-errors');
 const dotenv = require('dotenv').config();
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
+const bodyParser = require('body-parser')
 
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json())
 
 // Extended: https://swagger.io/specification/#infoObject
 const swaggerOptions = {
@@ -33,10 +33,18 @@ require('./initDB')();
 const PORT = process.env.PORT || 3000;
 
 const UserRoutes = require('./api/routes/userRoutes');
-app.use('/user', UserRoutes);
-
 const ClientRoutes = require('./api/routes/clientRoutes');
+const ContactRoutes = require('./api/routes/contactRoutes');
+const MeetingRouter = require('./api/routes/meetingRouter');
+const TickerRouter = require('./api/routes/ticketRouter');
+const AdminRouter = require('./api/routes/adminRouter');
+
+app.use('/user', UserRoutes);
 app.use('/client', ClientRoutes);
+app.use('/contact', ContactRoutes);
+app.use('/meering', MeetingRouter);
+app.use('/ticket', TickerRouter);
+app.use('/admin', AdminRouter);
 
 //404 handler and pass to error handler
 app.use((req, res, next) => {
