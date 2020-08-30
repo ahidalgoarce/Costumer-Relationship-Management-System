@@ -25,6 +25,7 @@ const ClientSchema = new Schema({
   },
   sector: {
     type: String,
+    enum: ['Educación', 'Industria', 'Agricultura', 'Manufactura', 'Servicios', 'Otros'],
     required: true,
   },
 

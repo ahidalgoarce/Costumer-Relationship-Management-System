@@ -3,10 +3,6 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var ContactSchema = new Schema({
-  clientId: {
-    type: String,
-    required: true,
-  },
   name: {
     type: String,
     required: true,
@@ -17,6 +13,11 @@ var ContactSchema = new Schema({
   },
   email: {
     type: String,
+    required: true,
+  },
+  clientId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Client',
     required: true,
   },
   phone: {
@@ -30,4 +31,5 @@ var ContactSchema = new Schema({
 
 });
 
-module.exports = mongoose.model('Contact', ContactSchema);
+const Contact = mongoose.model('Contact', ContactSchema);
+module.exports = Contact;

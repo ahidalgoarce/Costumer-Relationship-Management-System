@@ -1,14 +1,16 @@
-'use strict';
-module.exports = function(app) {
-  var contact = require('../controllers/contactController');
+const express = require('express');
+const router = express.Router();
 
-  app.route('/contact')
-    .get(contact.list_all_contacts)
-    .post(contact.create_a_contact);
+const ContactController = require('../controllers/contactController');
 
+router.get('/', ContactController.getAllContacts);
 
-  app.route('/contact/:contactId')
-    .get(contact.read_a_contact)
-    .put(contact.update_a_contact)
-    .delete(contact.delete_a_contact);
-};
+router.post('/', ContactController.createNewContact);
+
+router.get('/:id', ContactController.findContactById);
+
+router.patch('/:id', ContactController.updateAContact);
+
+router.delete('/:id', ContactController.deleteAContact);
+
+module.exports = router;
