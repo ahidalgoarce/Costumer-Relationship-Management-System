@@ -1,0 +1,684 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "CMS",
+      "description": "CMS API SWAGGER DOCUMENTATION",
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      }
+    },
+    "host": "localhost:3000",
+    "basePath": "/",
+    "tags": [
+      {
+        "name": "Users",
+        "description": "CRUD for users in the system"
+      }
+    ],
+    "schemes": [
+      "http"
+    ],
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "paths": {
+      "/user": {
+        "post": {
+          "tags": [
+            "Users"
+          ],
+          "description": "Create new user in system",
+          "parameters": [
+            {
+              "name": "user",
+              "in": "body",
+              "description": "User that we want to create",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "New user is created",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        },
+        "get": {
+          "tags": [
+            "Users"
+          ],
+          "summary": "Get all users in system",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/definitions/Users"
+              }
+            }
+          }
+        }
+      },
+      "/user/{userId}": {
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "ID of user that we want to find",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "tags": [
+            "Users"
+          ],
+          "summary": "Get user with given ID",
+          "responses": {
+            "200": {
+              "description": "User is found",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete user with given ID",
+          "tags": [
+            "Users"
+          ],
+          "responses": {
+            "200": {
+              "description": "User is deleted",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        },
+        "put": {
+          "summary": "Update user with give ID",
+          "tags": [
+            "Users"
+          ],
+          "parameters": [
+            {
+              "name": "user",
+              "in": "body",
+              "description": "User with new values of properties",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User is updated",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        }
+      },
+      "/client": {
+        "post": {
+            "tags": [
+                "Clients"
+            ],
+            "description": "Create new client in system",
+            "parameters": [
+            {
+                "name": "client",
+                "in": "body",
+                "description": "Client that we want to create",
+                "schema": {
+                    "$ref": "#/definitions/Client"
+                }
+            }
+            ],
+            "produces": [
+                "application/json"
+            ],
+            "responses": {
+                "200": {
+                    "description": "New client is created",
+                    "schema": {
+                        "$ref": "#/definitions/Client"
+                    }
+                }
+            }
+        },"get": {
+            "tags": [
+              "Clients"
+            ],
+            "summary": "Get all clients in system",
+            "responses": {
+              "200": {
+                "description": "OK",
+                "schema": {
+                  "$ref": "#/definitions/Clients"
+                }
+              }
+            }
+          }
+        },
+        "/client/{clientId}": {
+          "parameters": [
+            {
+              "name": "clientId",
+              "in": "path",
+              "required": true,
+              "description": "ID of client that we want to find",
+              "type": "string"
+            }
+          ],
+          "get": {
+            "tags": [
+              "Clients"
+            ],
+            "summary": "Get client with given ID",
+            "responses": {
+              "200": {
+                "description": "Client is found",
+                "schema": {
+                  "$ref": "#/definitions/Client"
+                }
+              }
+            }
+          },
+          "delete": {
+            "summary": "Delete client with given ID",
+            "tags": [
+              "Clients"
+            ],
+            "responses": {
+              "200": {
+                "description": "Client is deleted",
+                "schema": {
+                  "$ref": "#/definitions/Client"
+                }
+              }
+            }
+          },
+          "put": {
+            "summary": "Update client with give ID",
+            "tags": [
+              "Clients"
+            ],
+            "parameters": [
+              {
+                "name": "client",
+                "in": "body",
+                "description": "Client with new values of properties",
+                "schema": {
+                  "$ref": "#/definitions/Client"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Client is updated",
+                "schema": {
+                  "$ref": "#/definitions/Client"
+                }
+              }
+            }
+        }
+    },
+      "/contact": {
+            "post": {
+                "tags": [
+                    "Contacts"
+                ],
+                "description": "Create new contact in system",
+                "parameters": [
+                {
+                    "name": "contact",
+                    "in": "body",
+                    "description": "Contacts that we want to create",
+                    "schema": {
+                        "$ref": "#/definitions/Contact"
+                    }
+                }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "New contact is created",
+                        "schema": {
+                            "$ref": "#/definitions/Contact"
+                        }
+                    }
+                }
+            },"get": {
+                "tags": [
+                  "Contacts"
+                ],
+                "summary": "Get all Contacts in system",
+                "responses": {
+                  "200": {
+                    "description": "OK",
+                    "schema": {
+                      "$ref": "#/definitions/Contacts"
+                    }
+                  }
+                }
+              }
+            },
+            "/contacts/{contactId}": {
+              "parameters": [
+                {
+                  "name": "contactId",
+                  "in": "path",
+                  "required": true,
+                  "description": "ID of contact that we want to find",
+                  "type": "string"
+                }
+              ],
+              "get": {
+                "tags": [
+                  "Contacts"
+                ],
+                "summary": "Get contact with given ID",
+                "responses": {
+                  "200": {
+                    "description": "Contact is found",
+                    "schema": {
+                      "$ref": "#/definitions/Contact"
+                    }
+                  }
+                }
+              },
+              "delete": {
+                "summary": "Delete Contact with given ID",
+                "tags": [
+                  "Contacts"
+                ],
+                "responses": {
+                  "200": {
+                    "description": "Contact is deleted",
+                    "schema": {
+                      "$ref": "#/definitions/Contact"
+                    }
+                  }
+                }
+              },
+              "put": {
+                "summary": "Update Contact with give ID",
+                "tags": [
+                  "Contacts"
+                ],
+                "parameters": [
+                  {
+                    "name": "contact",
+                    "in": "body",
+                    "description": "Contact with new values of properties",
+                    "schema": {
+                      "$ref": "#/definitions/Contact"
+                    }
+                  }
+                ],
+                "responses": {
+                  "200": {
+                    "description": "Contact is updated",
+                    "schema": {
+                      "$ref": "#/definitions/Contact"
+                    }
+                  }
+                }
+            }
+        },
+        "/meeting": {
+            "post": {
+                "tags": [
+                    "Meetings"
+                ],
+                "description": "Create new Meeting in system",
+                "parameters": [
+                {
+                    "name": "meeting",
+                    "in": "body",
+                    "description": "Meeting that we want to create",
+                    "schema": {
+                        "$ref": "#/definitions/Meeting"
+                    }
+                }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "New Meeting is created",
+                        "schema": {
+                            "$ref": "#/definitions/Meeting"
+                        }
+                    }
+                }
+            },"get": {
+                "tags": [
+                  "Meetings"
+                ],
+                "summary": "Get all Meetings in system",
+                "responses": {
+                  "200": {
+                    "description": "OK",
+                    "schema": {
+                      "$ref": "#/definitions/Meetings"
+                    }
+                  }
+                }
+              }
+            },
+            "/meeting/{meetingId}": {
+              "parameters": [
+                {
+                  "name": "meetingId",
+                  "in": "path",
+                  "required": true,
+                  "description": "ID of Meeting that we want to find",
+                  "type": "string"
+                }
+              ],
+              "get": {
+                "tags": [
+                  "Meetings"
+                ],
+                "summary": "Get Meeting with given ID",
+                "responses": {
+                  "200": {
+                    "description": "Meeting is found",
+                    "schema": {
+                      "$ref": "#/definitions/Meeting"
+                    }
+                  }
+                }
+              },
+              "delete": {
+                "summary": "Delete Meeting with given ID",
+                "tags": [
+                  "Meetings"
+                ],
+                "responses": {
+                  "200": {
+                    "description": "Meeting is deleted",
+                    "schema": {
+                      "$ref": "#/definitions/Meeting"
+                    }
+                  }
+                }
+              },
+              "put": {
+                "summary": "Update Meeting with give ID",
+                "tags": [
+                  "Meetings"
+                ],
+                "parameters": [
+                  {
+                    "name": "meeting",
+                    "in": "body",
+                    "description": "Meeting with new values of properties",
+                    "schema": {
+                      "$ref": "#/definitions/Meeting"
+                    }
+                  }
+                ],
+                "responses": {
+                  "200": {
+                    "description": "Meeting is updated",
+                    "schema": {
+                      "$ref": "#/definitions/Meeting"
+                    }
+                  }
+                }
+            }
+        },
+        "/ticket": {
+            "post": {
+                "tags": [
+                    "Tickets"
+                ],
+                "description": "Create new Ticket in system",
+                "parameters": [
+                {
+                    "name": "ticket",
+                    "in": "body",
+                    "description": "Ticket that we want to create",
+                    "schema": {
+                        "$ref": "#/definitions/Ticket"
+                    }
+                }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "New Ticket is created",
+                        "schema": {
+                            "$ref": "#/definitions/Ticket"
+                        }
+                    }
+                }
+            },"get": {
+                "tags": [
+                  "Tickets"
+                ],
+                "summary": "Get all Ticket in system",
+                "responses": {
+                  "200": {
+                    "description": "OK",
+                    "schema": {
+                      "$ref": "#/definitions/Ticket"
+                    }
+                  }
+                }
+              }
+            },
+            "/ticket/{ticketId}": {
+              "parameters": [
+                {
+                  "name": "ticketId",
+                  "in": "path",
+                  "required": true,
+                  "description": "ID of Ticket that we want to find",
+                  "type": "string"
+                }
+              ],
+              "get": {
+                "tags": [
+                  "Tickets"
+                ],
+                "summary": "Get Ticket with given ID",
+                "responses": {
+                  "200": {
+                    "description": "Ticket is found",
+                    "schema": {
+                      "$ref": "#/definitions/Ticket"
+                    }
+                  }
+                }
+              },
+              "delete": {
+                "summary": "Delete Ticket with given ID",
+                "tags": [
+                  "Tickets"
+                ],
+                "responses": {
+                  "200": {
+                    "description": "Ticket is deleted",
+                    "schema": {
+                      "$ref": "#/definitions/Ticket"
+                    }
+                  }
+                }
+              },
+              "put": {
+                "summary": "Update Ticket with give ID",
+                "tags": [
+                  "Tickets"
+                ],
+                "parameters": [
+                  {
+                    "name": "ticket",
+                    "in": "body",
+                    "description": "Ticket with new values of properties",
+                    "schema": {
+                      "$ref": "#/definitions/Ticket"
+                    }
+                  }
+                ],
+                "responses": {
+                  "200": {
+                    "description": "Ticket is updated",
+                    "schema": {
+                      "$ref": "#/definitions/Ticket"
+                    }
+                  }
+                }
+            }
+        }
+    },
+    
+    "definitions": {
+      "User": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "password": {
+            "type": "string"
+          },
+          "isAdmin": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Users": {
+        "type": "array",
+        "$ref": "#/definitions/User"
+      },
+      "Client": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "legal_certificate": {
+            "type": "string"
+          },
+          "website": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "number"
+          },
+          "sector": {
+            "type": "string"
+          }
+        }
+      },
+      "Clients": {
+        "type": "array",
+        "$ref": "#/definitions/Client"
+      },
+      "Contact": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "clientId": {
+            "$ref": "#/definitions/Client"
+          },
+          "phone": {
+            "type": "number"
+          },
+          "position": {
+            "type": "string"
+          }
+        }
+      },
+      "Contacts": {
+        "type": "array",
+        "$ref": "#/definitions/Contact"
+      },
+      "Meeting": {
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "time": {
+            "type": "date"
+          },
+          "userId": {
+            "$ref": "#/definitions/User"
+          },
+          "isVirtual": {
+            "type": "boolean"
+          },
+          "clientId": {
+            "$ref": "#/definitions/Client"
+          }
+        }
+      },
+      "Meetings": {
+        "type": "array",
+        "$ref": "#/definitions/Meeting"
+      },
+      "Ticket": {
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "userId": {
+            "$ref": "#/definitions/User"
+          },
+          "clientId": {
+            "$ref": "#/definitions/Client"
+          },
+          "state": {
+            "type": "string",
+            "enum": ["Abierto", "En Proceso", "En Espera", "Finalizado"]
+          }
+        }
+      },
+      "Tickets": {
+        "type": "array",
+        "$ref": "#/definitions/Ticket"
+      }
+    }
+  }
+  

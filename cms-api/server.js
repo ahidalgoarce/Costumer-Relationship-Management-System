@@ -4,7 +4,7 @@ const dotenv = require('dotenv').config();
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 const bodyParser = require('body-parser')
-
+const swaggerDocument = require('./swagger.json');
 const app = express();
 app.use(bodyParser.json())
 
@@ -26,7 +26,7 @@ const swaggerOptions = {
 };
   
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Initialize DB
 require('./initDB')();

@@ -20,7 +20,7 @@ const ClientSchema = new Schema({
     required: true,
   },
   phone: {
-    type: String,
+    type: Number,
     required: true,
   },
   sector: {
